@@ -18,6 +18,7 @@ router.post(
     body('type', 'invalid type').notEmpty(),
     body('createdBy', 'invalid user').notEmpty(),
     body('status', 'invalid status').notEmpty(),
+    body('project', 'invalid status').notEmpty(),
   ],
   ticketController.postTicket
 );

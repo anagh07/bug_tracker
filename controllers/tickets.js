@@ -1,6 +1,8 @@
 const { validationResult } = require('express-validator');
 
 const Ticket = require('../models/Ticket');
+const Project = require('../models/Project');
+const { findById } = require('../models/Ticket');
 
 exports.postTicket = async (req, res, next) => {
   try {
@@ -13,7 +15,7 @@ exports.postTicket = async (req, res, next) => {
     }
 
     // Ticket data from req
-    const { title, type, description, status } = req.body;
+    const { title, type, description, status, project } = req.body;
     const createdBy = req.user.id;
     const comments = [];
     let ticket = new Ticket({
@@ -23,10 +25,16 @@ exports.postTicket = async (req, res, next) => {
       status,
       createdBy,
       comments,
+      project,
     });
 
     // Save ticket to DB
     ticket = await ticket.save();
+
+    // Add to project
+    let projectToUpdate = await Project.findById(project);
+    projectToUpdate.tickets.push({ ticketId: ticket._id });
+    projectToUpdate.save();
 
     // Send response
     res.status(200).json(ticket);
@@ -96,7 +104,7 @@ exports.deleteTicketById = async (req, res, next) => {
     const ticketId = req.params.id;
     let ticket = await Ticket.findById(ticketId);
     if (!ticket) {
-      return res.status(404).json({ msg: 'TIcket not found' });
+      return res.status(404).json({ msg: 'Ticket not found' });
     }
 
     // Check if current user is owner of the ticket
@@ -105,8 +113,16 @@ exports.deleteTicketById = async (req, res, next) => {
     }
 
     // Delete ticket
-    await ticket.remove();
+    await ticket.deleteOne();
     res.status(200).json({ msg: 'Ticket deleted' });
+
+    // Remove ticket from project
+    let project = await Project.findById(ticket.project);
+    let projectTickets = project.tickets.filter(
+      (ticket) => ticket.ticketId.toString() !== ticketId.toString()
+    );
+    project.tickets = projectTickets;
+    await project.save();
   } catch (err) {
     console.log(error);
     res.status(500).send('Server error');

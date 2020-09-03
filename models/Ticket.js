@@ -25,10 +25,15 @@ const ticketSchema = new Schema(
       required: true,
       default: 'In progress',
     },
+    project: {
+      type: Schema.Types.ObjectId,
+      ref: 'Project',
+    },
     comments: [
       {
         user: {
           type: Schema.Types.ObjectId,
+          ref: 'User',
         },
         text: {
           type: String,
