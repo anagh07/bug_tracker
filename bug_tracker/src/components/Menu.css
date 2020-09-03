@@ -20,3 +20,10 @@
     align-items: center;
     margin: 5px 0;
 }
+
+.menu__separator {
+  width: 100%;
+  background-color: #a3a3a3;
+  height: 1.5px;
+  margin: 20px 0;
+}

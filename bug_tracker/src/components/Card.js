@@ -60,6 +60,9 @@ const Card = (props) => {
     priority,
   } = data;
 
+  let updatedAt = new Date(props.ticket.updatedAt);
+  updatedAt = updatedAt.toISOString().substring(0, 10);
+
   const open = () => {
     setData({
       ...data,
@@ -321,15 +324,31 @@ const Card = (props) => {
     );
   }
 
-  return (
-    <div className='card' onClick={() => open()}>
-      <div className='card__info'>
-        <p className='card__title'>Ticket title</p>
-        <AssignmentIcon fontSize='small' />
+  if (props.ticket.type === 'Task') {
+    return (
+      <div className='card' onClick={() => open()}>
+        <div className='card__info'>
+          <p className='card__title'>{props.ticket.title}</p>
+        </div>
+        <div className='card__subtitle'>
+          <AssignmentIcon fontSize='small' />
+          <span className='card__date'>{updatedAt}</span>
+        </div>
       </div>
-      <div className='card__date'>9-1-20</div>
-    </div>
-  );
+    );
+  } else if (props.ticket.type === 'Bug') {
+    return (
+      <div className='card' onClick={() => open()}>
+        <div className='card__info'>
+          <p className='card__title'>{props.ticket.title}</p>
+        </div>
+        <div className='card__subtitle'>
+          <BugReportIcon fontSize='small' />
+          <span className='card__date'>{updatedAt}</span>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default Card;

@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import './Auth.css';
 
 import { login, skipLogin } from '../actions/auth';
+import Spinner from './Spinner';
 // import Register from './Register';
 
 const Login = (props) => {
@@ -36,7 +37,9 @@ const Login = (props) => {
     return <Redirect to='/' />;
   }
 
-  return (
+  return props.loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className='auth__container'>
         <div className='auth'>
@@ -110,6 +113,7 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
 });
 
 export default connect(mapStateToProps, { login, skipLogin })(Login);

@@ -11,6 +11,9 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .card:hover {
@@ -18,14 +21,17 @@
 }
 
 .card__info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: 100%;
+  width: 100%;
 }
 
 .card__title {
   margin-bottom: 8px;
+}
+
+.card__subtitle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .card__date {

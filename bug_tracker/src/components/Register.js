@@ -10,6 +10,8 @@ import { setAlert } from '../actions/alert';
 import { register } from '../actions/auth';
 import { Button } from '@material-ui/core';
 
+import Spinner from './Spinner';
+
 const Register = (props) => {
   const [formData, setForm] = useState({
     name: '',
@@ -42,7 +44,9 @@ const Register = (props) => {
     return <Redirect to='/dashboard' />;
   }
 
-  return (
+  return props.loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <section className='auth__container'>
         <div className='auth'>
@@ -142,6 +146,7 @@ Register.propTypes = {
 
 const mapStateToProps = (state) => ({
   isAuth: state.auth.isAuthenticated,
+  loading: state.auth.loading,
 });
 
 export default connect(mapStateToProps, { setAlert, register })(Register);

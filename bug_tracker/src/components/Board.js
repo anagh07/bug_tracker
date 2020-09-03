@@ -1,14 +1,27 @@
-import React, { useState, Fragment } from 'react';
+import React, { useLayoutEffect, Fragment } from 'react';
 import './Board.css';
 import { Breadcrumbs, Link, Typography } from '@material-ui/core';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Card from './Card';
+import Alert from './Alert';
 // import CardModal from './CardModal';
+import Spinner from './Spinner';
 
-const Board = () => {
-  return (
+import { loadTickets } from '../actions/ticket';
+
+const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }) => {
+  useLayoutEffect(() => {
+    loadTickets(currentProject);
+  }, [currentProject]);
+
+  return loading || projectLoading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <div className='board'>
+        <Alert />
         <div className='board__intro'>
           <div className='board__intro-breadcrumb'>
             <Breadcrumbs aria-label='breadcrumb'>
@@ -25,22 +38,27 @@ const Board = () => {
         <div className='board__groups'>
           <div className='board__group'>
             <span className='board__group-title'>TO DO</span>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {tickets.map((ticket) => {
+              return ticket.status === 'To-do' ? <Card ticket={ticket} /> : null;
+            })}
           </div>
           <div className='board__group'>
             <span className='board__group-title'>IN PROGRESS</span>
-            <Card />
+            {tickets.map((ticket) => {
+              return ticket.status === 'In progress' ? <Card ticket={ticket} /> : null;
+            })}
           </div>
           <div className='board__group'>
             <span className='board__group-title'>QA</span>
-            <Card />
+            {tickets.map((ticket) => {
+              return ticket.status === 'QA' ? <Card ticket={ticket} /> : null;
+            })}
           </div>
           <div className='board__group'>
             <span className='board__group-title'>DONE</span>
-            <Card />
+            {tickets.map((ticket) => {
+              return ticket.status === 'Done' ? <Card ticket={ticket} /> : null;
+            })}
           </div>
         </div>
       </div>
@@ -48,4 +66,16 @@ const Board = () => {
   );
 };
 
-export default Board;
+Board.propTypes = {
+  tickets: PropTypes.array,
+  loadTickets: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  tickets: state.ticket.tickets,
+  currentProject: state.project.currentProject,
+  loading: state.ticket.loading,
+  projectLoading: state.project.loading,
+});
+
+export default connect(mapStateToProps, { loadTickets })(Board);
