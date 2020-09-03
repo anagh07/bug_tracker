@@ -2,10 +2,13 @@ import React from 'react';
 import './Nav.css';
 import { Button, Link } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import logo from '../images/appicon2.png';
+import { logout } from '../actions/auth';
 
-const Nav = () => {
+const Nav = (props) => {
   return (
     <div className='nav'>
       <div className='nav__group1'>
@@ -16,7 +19,9 @@ const Nav = () => {
         <div className='nav__buttons'>
           <Button>Dashboard</Button>
           <Button>Projects</Button>
-          <Button variant='contained' color='primary'>Create</Button>
+          <Button variant='contained' color='primary'>
+            Create
+          </Button>
         </div>
       </div>
 
@@ -27,8 +32,8 @@ const Nav = () => {
         </div>
 
         <div className='nav__account'>
-          <Link href='#' color='inherit'>
-            My account
+          <Link href='#' color='inherit' onClick={props.logout}>
+            Logout
           </Link>
         </div>
       </div>
@@ -36,4 +41,8 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+Nav.propTypes = {
+  logout: PropTypes.func.isRequired,
+};
+
+export default connect(null, { logout })(Nav);
