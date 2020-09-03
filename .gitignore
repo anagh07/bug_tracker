@@ -1,0 +1,24 @@
+node_modules/
+# dependencies
+bug_tracker/node_modules
+bug_tracker/.pnp
+bug_tracker/.pnp.js
+
+# testing
+bug_tracker/coverage
+
+# production
+bug_tracker/build
+
+# misc
+bug_tracker/.DS_Store
+bug_tracker/.env.local
+bug_tracker/.env.development.local
+bug_tracker/.env.test.local
+bug_tracker/.env.production.local
+
+bug_tracker/npm-debug.log*
+bug_tracker/yarn-debug.log*
+bug_tracker/yarn-error.log*
+
+.env
