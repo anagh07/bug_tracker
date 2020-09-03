@@ -53,4 +53,49 @@ router.put(
 // @access  protected
 router.delete('/:id', isAuth, checkObjectId('id'), ticketController.deleteTicketById);
 
+// ------------ COMMENTS
+
+// @route   GET api/tickets/comments/:id
+// @desc    Get all comments on a ticket by ticketid
+// @access  protected
+router.get(
+  '/comments/:id',
+  isAuth,
+  checkObjectId('id'),
+  ticketController.getTicketComments
+);
+
+// @route   POST api/tickets/comments/:id
+// @desc    Add comment to ticket by ticket id
+// @access  protected
+router.post(
+  '/comments/:id',
+  isAuth,
+  [
+    body('user', 'Invalid user').notEmpty(),
+    body('text', 'Comment cannot be empty').notEmpty(),
+  ],
+  ticketController.postTicketComment
+);
+
+// @route   PUT api/tickets/comments/:id
+// @desc    Edit comment on ticket by ticket id and comment id
+// @access  protected
+router.put(
+  '/comments/:id',
+  isAuth,
+  [body('commentId').notEmpty(), body('text', 'Comment cannot be empty').notEmpty()],
+  ticketController.updateTicketComment
+);
+
+// @route   DELETE api/tickets/comments/:id
+// @desc    Delete comment on ticket by ticket id and comment id
+// @access  protected
+router.delete(
+  '/comments/:id',
+  isAuth,
+  [body('commentId').notEmpty()],
+  ticketController.deleteTicketComment
+);
+
 module.exports = router;

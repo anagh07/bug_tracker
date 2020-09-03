@@ -13,57 +13,73 @@ import Select from '@material-ui/core/Select';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import TimelineIcon from '@material-ui/icons/Timeline';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Comment from './Comment';
+
+// Actions
+import { updateTicket } from '../actions/ticket';
 
 const Card = (props) => {
   const [data, setData] = useState({
     isOpen: false,
     editDescription: false,
-    description: 'Test text',
     commentInput: '',
-    comments: [
-      {
-        id: 1,
-        author: 'anagh',
-        text: 'this is a sample comment',
-        date: '9-1-2020',
-      },
-      {
-        id: 2,
-        author: 'testuser',
-        text: 'this is another comment',
-        date: '8-31-2020',
-      },
-    ],
     typeOpen: false,
-    type: 'Task',
-    status: 'To-do',
     statusOpen: false,
     assignee: 'Testuser',
-    reporter: 'Anagh',
     priority: 'Normal',
+    id: props.ticket._id,
+    title: props.ticket.title,
+    description: props.ticket.description,
+    type: props.ticket.type,
+    status: props.ticket.status,
+    createdBy: props.ticket.createdBy,
+    comments: props.ticket.comments,
+    project: props.ticket.project,
   });
 
   const {
     isOpen,
     editDescription,
-    description,
-    comments,
     commentInput,
     typeOpen,
-    type,
     statusOpen,
-    status,
     assignee,
-    reporter,
     priority,
+
+    id,
+    title,
+    description,
+    type,
+    status,
+    createdBy,
+    comments,
+    project,
   } = data;
 
   let updatedAt = new Date(props.ticket.updatedAt);
   updatedAt = updatedAt.toISOString().substring(0, 10);
+  let createdAt = new Date(props.ticket.createdAt);
+  createdAt = createdAt.toISOString().substring(0, 10);
 
-  const open = () => {
+  // Update ticket hander
+  const updateTicketHandler = async () => {
+    props.updateTicket(id, title, description, type, status, comments);
+    close();
+    props.onTicketUpdate();
+  };
+
+  // Add comment
+  const submitComment = async () => {
+    setData({
+      ...data,
+      comments: [...comments, { user: props.user._id, text: commentInput }],
+    });
+  };
+
+  const open = (ticketId) => {
     setData({
       ...data,
       isOpen: true,
@@ -156,10 +172,10 @@ const Card = (props) => {
           </div>
           <div className='modal__area-body'>
             <div className='modal__area-left'>
-              <h2 className='modal__title'>Modal Title</h2>
+              <h2 className='modal__title'>{title}</h2>
 
               <div className='modal__container modal__type-container'>
-                <h3 className='modal__type-title'>Type</h3>
+                <h3 className='modal__type-title'>{type}</h3>
                 {/* <Button className='modal__type-button' onClick={handleTypeOpen}>
                   Open the select
                 </Button> */}
@@ -260,7 +276,7 @@ const Card = (props) => {
                     changeFieldText(e);
                   }}
                 />
-                <Button>Submit</Button>
+                <Button onClick={() => submitComment()}>Submit</Button>
               </div>
             </div>
 
@@ -298,7 +314,7 @@ const Card = (props) => {
                 </div>
                 <div className='modal__user modal__user-reporter'>
                   <span className='modal__user-title'>Reporter</span>
-                  <p className='modal__user-name'>{reporter}</p>
+                  <p className='modal__user-name'>{createdBy}</p>
                 </div>
               </div>
 
@@ -308,7 +324,12 @@ const Card = (props) => {
               </div>
 
               <div className='modal__save'>
-                <Button className='modal__btn modal__save-btn'>Save</Button>
+                <Button
+                  onClick={() => updateTicketHandler()}
+                  className='modal__btn modal__save-btn'
+                >
+                  Save
+                </Button>
                 <Button
                   variant='contained'
                   color='secondary'
@@ -326,7 +347,7 @@ const Card = (props) => {
 
   if (props.ticket.type === 'Task') {
     return (
-      <div className='card' onClick={() => open()}>
+      <div className='card' onClick={(e) => open(props.ticket._id)}>
         <div className='card__info'>
           <p className='card__title'>{props.ticket.title}</p>
         </div>
@@ -348,7 +369,27 @@ const Card = (props) => {
         </div>
       </div>
     );
+  } else if (props.ticket.type === 'Story') {
+    return (
+      <div className='card' onClick={() => open()}>
+        <div className='card__info'>
+          <p className='card__title'>{props.ticket.title}</p>
+        </div>
+        <div className='card__subtitle'>
+          <TimelineIcon fontSize='small' />
+          <span className='card__date'>{updatedAt}</span>
+        </div>
+      </div>
+    );
   }
 };
 
-export default Card;
+Card.propTypes = {
+  updateTicket: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps, { updateTicket })(Card);

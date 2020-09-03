@@ -16,6 +16,10 @@ const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }
     loadTickets(currentProject);
   }, [currentProject]);
 
+  const updateTickets = () => {
+    loadTickets(currentProject);
+  };
+
   return loading || projectLoading ? (
     <Spinner />
   ) : (
@@ -39,25 +43,33 @@ const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }
           <div className='board__group'>
             <span className='board__group-title'>TO DO</span>
             {tickets.map((ticket) => {
-              return ticket.status === 'To-do' ? <Card ticket={ticket} /> : null;
+              return ticket.status === 'To-do' ? (
+                <Card onTicketUpdate={updateTickets} key={ticket._id} ticket={ticket} />
+              ) : null;
             })}
           </div>
           <div className='board__group'>
             <span className='board__group-title'>IN PROGRESS</span>
             {tickets.map((ticket) => {
-              return ticket.status === 'In progress' ? <Card ticket={ticket} /> : null;
+              return ticket.status === 'In progress' ? (
+                <Card onTicketUpdate={updateTickets} key={ticket._id} ticket={ticket} />
+              ) : null;
             })}
           </div>
           <div className='board__group'>
             <span className='board__group-title'>QA</span>
             {tickets.map((ticket) => {
-              return ticket.status === 'QA' ? <Card ticket={ticket} /> : null;
+              return ticket.status === 'QA' ? (
+                <Card onTicketUpdate={updateTickets} key={ticket._id} ticket={ticket} />
+              ) : null;
             })}
           </div>
           <div className='board__group'>
             <span className='board__group-title'>DONE</span>
             {tickets.map((ticket) => {
-              return ticket.status === 'Done' ? <Card ticket={ticket} /> : null;
+              return ticket.status === 'Done' ? (
+                <Card onTicketUpdate={updateTickets} key={ticket._id} ticket={ticket} />
+              ) : null;
             })}
           </div>
         </div>
