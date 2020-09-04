@@ -212,3 +212,10 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+.modal__comments-input-section {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+

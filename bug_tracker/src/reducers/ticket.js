@@ -3,6 +3,11 @@ import {
   TICKETS_LOAD_FAILED,
   TICKET_UPDATED,
   TICKET_UPDATE_FAILED,
+  LOAD_TICKET,
+  COMMENT_ADDED,
+  COMMENTS_LOADED,
+  COMMENTS_LOAD_FAILED,
+  DELETE_COMMENT,
 } from '../actions/types';
 
 const initialState = {
@@ -23,6 +28,13 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case LOAD_TICKET:
+      return {
+        ...state,
+        currentTicket: payload,
+        loading: false,
+      };
+
     case TICKET_UPDATED:
       return {
         ...state,
@@ -35,6 +47,18 @@ export default function (state = initialState, action) {
       return {
         ...state,
         error: payload,
+      };
+
+    case COMMENT_ADDED:
+      return {
+        ...state,
+        currentTicket: payload,
+      };
+
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        currentTicket: payload,
       };
 
     default:

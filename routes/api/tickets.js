@@ -88,14 +88,9 @@ router.put(
   ticketController.updateTicketComment
 );
 
-// @route   DELETE api/tickets/comments/:id
+// @route   DELETE api/tickets/comments/delete/:id
 // @desc    Delete comment on ticket by ticket id and comment id
 // @access  protected
-router.delete(
-  '/comments/:id',
-  isAuth,
-  [body('commentId').notEmpty()],
-  ticketController.deleteTicketComment
-);
+router.put('/comments/delete/:id', isAuth, ticketController.deleteTicketComment);
 
 module.exports = router;

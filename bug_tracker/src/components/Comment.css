@@ -16,6 +16,7 @@
   background-color: #fafafa;
   border: 0;
   color: #808080;
+  cursor: pointer;
 }
 .comment__button:hover,
 .comment__button:focus {

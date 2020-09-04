@@ -4,6 +4,11 @@ import {
   TICKETS_LOAD_FAILED,
   TICKET_UPDATED,
   TICKET_UPDATE_FAILED,
+  COMMENT_ADDED,
+  COMMENTS_LOADED,
+  COMMENTS_LOAD_FAILED,
+  LOAD_TICKET,
+  DELETE_COMMENT,
 } from './types';
 import { setAlert } from './alert';
 
@@ -26,11 +31,30 @@ export const loadTickets = (projectId) => async (dispatch) => {
   }
 };
 
+// Load single ticket by id
+export const loadTicket = (ticketId) => async (dispatch) => {
+  try {
+    console.log('Loading ticket');
+    const res = await axios.get(`/api/tickets/${ticketId}`);
+
+    dispatch({
+      type: LOAD_TICKET,
+      payload: res.data,
+    });
+  } catch (err) {
+    if (err) {
+      dispatch({
+        type: TICKETS_LOAD_FAILED,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  }
+};
+
 // Update a single ticket
 export const updateTicket = (id, title, description, type, status, comments) => async (
   dispatch
 ) => {
-  console.log('Updating');
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -53,5 +77,59 @@ export const updateTicket = (id, title, description, type, status, comments) => 
         payload: { msg: err.response.statusText, status: err.response.status },
       });
     }
+  }
+};
+
+// --------- COMMENTS ------------
+
+// Add comment to post
+export const addComment = (ticketId, user, username, text) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify({ user: user, username: username, text: text });
+
+  try {
+    const res = await axios.post('/api/tickets/comments/' + ticketId, body, config);
+
+    dispatch({
+      type: COMMENT_ADDED,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: COMMENTS_LOAD_FAILED,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Delete comment
+export const deleteComment = (ticketId, commentId) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify({ commentId: commentId });
+
+  try {
+    const res = await axios.put(`/api/tickets/comments/delete/${ticketId}`, body, config);
+
+    console.log(res.data);
+
+    dispatch({
+      type: DELETE_COMMENT,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: COMMENTS_LOAD_FAILED,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };

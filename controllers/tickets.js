@@ -155,7 +155,11 @@ exports.postTicketComment = async (req, res, next) => {
     let ticket = await Ticket.findById(ticketId);
 
     // Ticket data from req
-    const newComment = { user: req.body.user, text: req.body.text };
+    const newComment = {
+      user: req.body.user,
+      username: req.body.username,
+      text: req.body.text,
+    };
     ticket.comments.push(newComment);
 
     // Save ticket to DB
