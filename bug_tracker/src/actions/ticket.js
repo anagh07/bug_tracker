@@ -9,6 +9,10 @@ import {
   COMMENTS_LOAD_FAILED,
   LOAD_TICKET,
   DELETE_COMMENT,
+  DELETE_TICKET_FAILED,
+  DELETE_TICKET,
+  TICKET_CREATED,
+  FIND_TICKET_CREATOR,
 } from './types';
 import { setAlert } from './alert';
 
@@ -35,16 +39,50 @@ export const loadTickets = (projectId) => async (dispatch) => {
 export const loadTicket = (ticketId) => async (dispatch) => {
   try {
     console.log('Loading ticket');
-    const res = await axios.get(`/api/tickets/${ticketId}`);
+    let res = await axios.get(`/api/tickets/${ticketId}`);
+    let ticket = res.data;
+    console.log(ticket);
+    const res2 = await axios.get(`/api/users/${res.data.createdBy}`);
+    ticket.creator = res2.data;
+    console.log(ticket);
 
     dispatch({
       type: LOAD_TICKET,
-      payload: res.data,
+      payload: ticket,
     });
   } catch (err) {
     if (err) {
       dispatch({
         type: TICKETS_LOAD_FAILED,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  }
+};
+
+// Creeate a ticket
+export const createTicket = (ticketObj) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify(ticketObj);
+  console.log(ticketObj);
+
+  try {
+    const res = await axios.post('/api/tickets', body, config);
+    console.log(res.data);
+
+    dispatch({
+      type: TICKET_CREATED,
+      payload: res.data,
+    });
+  } catch (err) {
+    if (err) {
+      dispatch({
+        type: TICKET_UPDATE_FAILED,
         payload: { msg: err.response.statusText, status: err.response.status },
       });
     }
@@ -68,6 +106,44 @@ export const updateTicket = (id, title, description, type, status, comments) => 
 
     dispatch({
       type: TICKET_UPDATED,
+      payload: res.data,
+    });
+  } catch (err) {
+    if (err) {
+      dispatch({
+        type: TICKET_UPDATE_FAILED,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  }
+};
+
+// Delete ticket by id
+export const deleteTicketById = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/tickets/${id}`);
+
+    dispatch({
+      type: DELETE_TICKET,
+      payload: res.data,
+    });
+  } catch (err) {
+    if (err) {
+      dispatch({
+        type: TICKET_UPDATE_FAILED,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  }
+};
+
+// Find ticket creator
+export const findTicketCreator = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/users/${id}`);
+
+    dispatch({
+      type: FIND_TICKET_CREATOR,
       payload: res.data,
     });
   } catch (err) {

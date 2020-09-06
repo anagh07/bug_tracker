@@ -8,6 +8,10 @@ import {
   COMMENTS_LOADED,
   COMMENTS_LOAD_FAILED,
   DELETE_COMMENT,
+  DELETE_TICKET_FAILED,
+  DELETE_TICKET,
+  TICKET_CREATED,
+  FIND_TICKET_CREATOR,
 } from '../actions/types';
 
 const initialState = {
@@ -40,6 +44,26 @@ export default function (state = initialState, action) {
         ...state,
         loading: false,
         currentTicket: payload,
+      };
+
+    case DELETE_TICKET:
+      return {
+        ...state,
+        loading: false,
+        tickets: payload,
+      };
+
+    case TICKET_CREATED:
+      return {
+        ...state,
+        loading: false,
+        tickets: [...state.tickets, payload],
+      };
+
+    case FIND_TICKET_CREATOR:
+      return {
+        ...state,
+        ticketCreator: payload,
       };
 
     case TICKETS_LOAD_FAILED:

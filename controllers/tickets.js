@@ -2,7 +2,6 @@ const { validationResult } = require('express-validator');
 
 const Ticket = require('../models/Ticket');
 const Project = require('../models/Project');
-const { findById } = require('../models/Ticket');
 
 exports.postTicket = async (req, res, next) => {
   try {
@@ -107,14 +106,17 @@ exports.deleteTicketById = async (req, res, next) => {
       return res.status(404).json({ msg: 'Ticket not found' });
     }
 
-    // Check if current user is owner of the ticket
-    if (req.user.id.toString() !== ticket.createdBy.toString()) {
-      return res.status(401).json({ msg: 'Unauthorized' });
-    }
+    // // Check if current user is owner of the ticket
+    // if (req.user.id.toString() !== ticket.createdBy.toString()) {
+    //   return res.status(401).json({ msg: 'Unauthorized' });
+    // }
 
-    // Delete ticket
+    // Delete ticket and return all
     await ticket.deleteOne();
-    res.status(200).json({ msg: 'Ticket deleted' });
+    const tickets = await Ticket.find({ project: ticket.project }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(tickets);
 
     // Remove ticket from project
     let project = await Project.findById(ticket.project);

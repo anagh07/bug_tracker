@@ -4,6 +4,7 @@ import { Button, Link } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 
 import logo from '../images/appicon2.png';
 import { logout } from '../actions/auth';
@@ -17,11 +18,13 @@ const Nav = (props) => {
         </div>
 
         <div className='nav__buttons'>
-          <Button>Dashboard</Button>
+          <Button disabled>Dashboard</Button>
           <Button>Projects</Button>
-          <Button variant='contained' color='primary'>
-            Create
-          </Button>
+          <RouterLink to='/create'>
+            <Button variant='contained' color='primary'>
+              Create
+            </Button>
+          </RouterLink>
         </div>
       </div>
 

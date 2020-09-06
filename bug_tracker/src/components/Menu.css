@@ -16,9 +16,9 @@
 }
 
 .menu__item {
-    display: flex;
-    align-items: center;
-    margin: 5px 0;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
 }
 
 .menu__separator {
@@ -26,4 +26,21 @@
   background-color: #a3a3a3;
   height: 1.5px;
   margin: 20px 0;
+}
+
+.menu__create-container {
+  margin-top: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+.menu__create-container > * {
+  margin: 10px 0;
+}
+
+.menu__project-editor {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

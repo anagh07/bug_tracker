@@ -35,6 +35,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  ticket: state.ticket,
 });
 
 export default connect(mapStateToProps)(Home);

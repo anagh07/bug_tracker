@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Home from './Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import TicketForm from './components/TicketForm';
 // Actions
 import { loadUser } from './actions/auth';
 // Redux
@@ -28,6 +29,9 @@ function App() {
             </Route>
             <Route path='/register'>
               <Register />
+            </Route>
+            <Route path='/create'>
+              <TicketForm />
             </Route>
             <Route path='/'>
               <Home />

@@ -9,15 +9,27 @@ import Alert from './Alert';
 // import CardModal from './CardModal';
 import Spinner from './Spinner';
 
-import { loadTickets } from '../actions/ticket';
+import { loadTickets, deleteTicketById } from '../actions/ticket';
 
-const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }) => {
+const Board = ({
+  tickets,
+  loadTickets,
+  deleteTicketById,
+  currentProject,
+  currentProjectTitle,
+  loading,
+  projectLoading,
+}) => {
   useLayoutEffect(() => {
-    loadTickets(currentProject);
+    loadTickets(currentProject.id);
   }, [currentProject]);
 
   const updateTickets = () => {
-    loadTickets(currentProject);
+    loadTickets(currentProject.id);
+  };
+
+  const deleteTicketHandler = async (id) => {
+    await deleteTicketById(id);
   };
 
   return loading || projectLoading ? (
@@ -30,7 +42,7 @@ const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }
           <div className='board__intro-breadcrumb'>
             <Breadcrumbs aria-label='breadcrumb'>
               <Link color='inherit' href='/'>
-                My project
+                {currentProject.title}
               </Link>
               <Typography color='textPrimary'>Active sprint name</Typography>
             </Breadcrumbs>
@@ -44,7 +56,12 @@ const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }
             <span className='board__group-title'>TO DO</span>
             {tickets.map((ticket) => {
               return ticket.status === 'To-do' ? (
-                <Card onTicketUpdate={updateTickets} key={ticket._id} ticket={ticket} />
+                <Card
+                  onTicketUpdate={updateTickets}
+                  key={ticket._id}
+                  ticket={ticket}
+                  onTicketDelete={deleteTicketHandler}
+                />
               ) : null;
             })}
           </div>
@@ -52,7 +69,12 @@ const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }
             <span className='board__group-title'>IN PROGRESS</span>
             {tickets.map((ticket) => {
               return ticket.status === 'In progress' ? (
-                <Card onTicketUpdate={updateTickets} key={ticket._id} ticket={ticket} />
+                <Card
+                  onTicketUpdate={updateTickets}
+                  key={ticket._id}
+                  ticket={ticket}
+                  onTicketDelete={deleteTicketHandler}
+                />
               ) : null;
             })}
           </div>
@@ -60,7 +82,12 @@ const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }
             <span className='board__group-title'>QA</span>
             {tickets.map((ticket) => {
               return ticket.status === 'QA' ? (
-                <Card onTicketUpdate={updateTickets} key={ticket._id} ticket={ticket} />
+                <Card
+                  onTicketUpdate={updateTickets}
+                  key={ticket._id}
+                  ticket={ticket}
+                  onTicketDelete={deleteTicketHandler}
+                />
               ) : null;
             })}
           </div>
@@ -68,7 +95,12 @@ const Board = ({ tickets, loadTickets, currentProject, loading, projectLoading }
             <span className='board__group-title'>DONE</span>
             {tickets.map((ticket) => {
               return ticket.status === 'Done' ? (
-                <Card onTicketUpdate={updateTickets} key={ticket._id} ticket={ticket} />
+                <Card
+                  onTicketUpdate={updateTickets}
+                  key={ticket._id}
+                  ticket={ticket}
+                  onTicketDelete={deleteTicketHandler}
+                />
               ) : null;
             })}
           </div>
@@ -90,4 +122,4 @@ const mapStateToProps = (state) => ({
   projectLoading: state.project.loading,
 });
 
-export default connect(mapStateToProps, { loadTickets })(Board);
+export default connect(mapStateToProps, { loadTickets, deleteTicketById })(Board);

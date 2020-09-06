@@ -78,7 +78,9 @@ const Card = (props) => {
       <Modal
         ticketId={props.ticket._id}
         close={close}
+        open={open}
         onTicketUpdate={props.onTicketUpdate}
+        onTicketDelete={props.onTicketDelete}
       />
     );
   }
@@ -128,6 +130,7 @@ const Card = (props) => {
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   loading: state.ticket.loading,
+  currentTicket: state.ticket.currentTicket,
 });
 
 export default connect(mapStateToProps, { loadTicket })(Card);

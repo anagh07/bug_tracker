@@ -2,11 +2,13 @@ import {
   PROJECTS_LOADED,
   PROJECT_LOAD_FAILED,
   SET_CURRENT_PROJECT,
+  PROJECT_CREATE_FAILED,
+  CREATE_PROJECT,
 } from '../actions/types';
 
 const initialState = {
   projects: [],
-  currentProject: '',
+  currentProject: {},
   loading: true,
 };
 
@@ -14,6 +16,13 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case CREATE_PROJECT:
+      return {
+        ...state,
+        projects: [...state.projects, payload],
+        currentProject: payload,
+      };
+
     case PROJECTS_LOADED:
       return {
         ...state,

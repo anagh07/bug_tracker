@@ -58,3 +58,19 @@ exports.postUser = async (req, res, next) => {
     res.status(500).send('Server error');
   }
 };
+
+exports.getUserById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Server error');
+  }
+};

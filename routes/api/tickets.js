@@ -16,7 +16,6 @@ router.post(
   [
     body('title', 'title cannot be empty').notEmpty(),
     body('type', 'invalid type').notEmpty(),
-    body('createdBy', 'invalid user').notEmpty(),
     body('status', 'invalid status').notEmpty(),
     body('project', 'invalid status').notEmpty(),
   ],
