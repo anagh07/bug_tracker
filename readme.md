@@ -29,21 +29,18 @@ The front end is built with React and consumes a REST api that was built with No
 - MongoDB
 
 ### Screenshots:
-
 <p align="center">
   <a href="https://bug-tracker-6c802.web.app/">
-    <img width="760" height="370" src="dashboard.png">
+    <img width="770" height="340" src="dashboard.png">
   </a>
 </p>
 <br>
 <p align="center">
   <a href="https://bug-tracker-6c802.web.app/">
-    <img width="760" height="380" src="ticket.png">
+    <img width="770" height="380" src="ticket.png">
   </a>
 </p>
 
 # Notes on using the website
-
 Project is hosted <a href="https://bug-tracker-6c802.web.app/"><strong>here</strong></a>
-
 - If you do not want to register, press the skip button during login. This will log you in as a test user (test@test.com).
