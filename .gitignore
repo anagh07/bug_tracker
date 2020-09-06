@@ -22,3 +22,4 @@ bug_tracker/yarn-debug.log*
 bug_tracker/yarn-error.log*
 
 .env
+bug_tracker/
