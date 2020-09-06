@@ -43,6 +43,7 @@ const Modal = ({
   addComment,
   deleteComment,
   ticketCreator,
+  currentProject,
 }) => {
   const [ticket, setTicket] = useState({
     title: currentTicket.title,
@@ -145,9 +146,17 @@ const Modal = ({
 
   // Update ticket hander
   const updateTicketHandler = async () => {
-    await updateTicket(ticketId, title, description, type, status, comments);
+    await updateTicket(
+      ticketId,
+      title,
+      description,
+      type,
+      status,
+      comments
+    );
     close();
     onTicketUpdate();
+    findTicketCreator(createdBy);
   };
 
   // Delete ticket
@@ -438,7 +447,9 @@ const Modal = ({
                   </div> */}
                   <div className='modal__user modal__user-reporter'>
                     <span className='modal__user-title'>Reporter</span>
-                    <p className='modal__user-name'>{currentTicket.creator.name}</p>
+                    {currentTicket.creator.name && (
+                      <p className='modal__user-name'>{currentTicket.creator.name}</p>
+                    )}
                   </div>
                 </div>
 
@@ -482,6 +493,7 @@ const mapStateToProps = (state) => ({
   currentTicket: state.ticket.currentTicket,
   user: state.auth.user,
   loading: state.ticket.loading,
+  currentProject: state.project.currentProject,
 });
 
 export default connect(mapStateToProps, {

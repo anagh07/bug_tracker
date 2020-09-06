@@ -43,7 +43,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        currentTicket: payload,
       };
 
     case DELETE_TICKET:

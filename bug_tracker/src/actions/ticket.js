@@ -75,7 +75,7 @@ export const createTicket = (ticketObj) => async (dispatch) => {
   };
 
   const body = JSON.stringify(ticketObj);
-  console.log(ticketObj);
+  // console.log(ticketObj);
 
   try {
     const res = await axios.post(

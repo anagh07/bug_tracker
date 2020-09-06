@@ -44,11 +44,11 @@ const Board = ({
               <Link color='inherit' href='/'>
                 {currentProject.title}
               </Link>
-              <Typography color='textPrimary'>Active sprint name</Typography>
+              <Typography color='textPrimary'>...</Typography>
             </Breadcrumbs>
           </div>
-          <h2 className='board__intro-title'>Active sprint title</h2>
-          <p className='board__intro-description'>Description: this is my first sprint</p>
+          {/* <h2 className='board__intro-title'>Active sprint title</h2> */}
+          {/* <p className='board__intro-description'>Description: this is my first sprint</p> */}
         </div>
 
         <div className='board__groups'>

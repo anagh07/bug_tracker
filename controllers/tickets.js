@@ -87,7 +87,7 @@ exports.updateTicket = async (req, res, next) => {
     ticket.comments = comments;
 
     // Save ticket to DB
-    ticket = await ticket.save();
+    ticket = await ticket.updateOne(ticket);
 
     // Send response
     res.status(200).json(ticket);
