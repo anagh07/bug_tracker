@@ -31,7 +31,7 @@ The front end is built with React and consumes a REST api that was built with No
 ### Screenshots:
 <p align="center">
   <a href="https://bug-tracker-6c802.web.app/">
-    <img width="770" height="340" src="dashboard.png">
+    <img width="770" height="300" src="dashboard.png">
   </a>
 </p>
 <br>
