@@ -11,7 +11,7 @@ import { setAlert } from './alert';
 // Load projects
 export const loadProjects = () => async (dispatch) => {
   try {
-    const res = await axios.get('/api/projects');
+    const res = await axios.get('https://bug-task-tracker.herokuapp.com/api/projects');
     res.data.currentProject = {
       id: res.data[0]._id.toString(),
       title: res.data[0].title,
@@ -51,7 +51,11 @@ export const createProject = (title) => async (dispatch) => {
   const body = JSON.stringify({ title: title });
 
   try {
-    const res = await axios.post('/api/projects', body, config);
+    const res = await axios.post(
+      'https://bug-task-tracker.herokuapp.com/api/projects',
+      body,
+      config
+    );
     dispatch({
       type: CREATE_PROJECT,
       payload: res.data,

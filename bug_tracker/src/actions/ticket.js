@@ -19,7 +19,9 @@ import { setAlert } from './alert';
 // Load project tickets
 export const loadTickets = (projectId) => async (dispatch) => {
   try {
-    const res = await axios.get('/api/projects/tickets/' + projectId);
+    const res = await axios.get(
+      'https://bug-task-tracker.herokuapp.com/api/projects/tickets/' + projectId
+    );
 
     dispatch({
       type: TICKETS_LOADED,
@@ -39,10 +41,14 @@ export const loadTickets = (projectId) => async (dispatch) => {
 export const loadTicket = (ticketId) => async (dispatch) => {
   try {
     console.log('Loading ticket');
-    let res = await axios.get(`/api/tickets/${ticketId}`);
+    let res = await axios.get(
+      `https://bug-task-tracker.herokuapp.com/api/tickets/${ticketId}`
+    );
     let ticket = res.data;
     console.log(ticket);
-    const res2 = await axios.get(`/api/users/${res.data.createdBy}`);
+    const res2 = await axios.get(
+      `https://bug-task-tracker.herokuapp.com/api/users/${res.data.createdBy}`
+    );
     ticket.creator = res2.data;
     console.log(ticket);
 
@@ -72,7 +78,11 @@ export const createTicket = (ticketObj) => async (dispatch) => {
   console.log(ticketObj);
 
   try {
-    const res = await axios.post('/api/tickets', body, config);
+    const res = await axios.post(
+      'https://bug-task-tracker.herokuapp.com/api/tickets',
+      body,
+      config
+    );
     console.log(res.data);
 
     dispatch({
@@ -102,7 +112,11 @@ export const updateTicket = (id, title, description, type, status, comments) => 
   const body = JSON.stringify({ title, description, type, status, comments });
 
   try {
-    const res = await axios.put('/api/tickets/' + id, body, config);
+    const res = await axios.put(
+      'https://bug-task-tracker.herokuapp.com/api/tickets/' + id,
+      body,
+      config
+    );
 
     dispatch({
       type: TICKET_UPDATED,
@@ -121,7 +135,9 @@ export const updateTicket = (id, title, description, type, status, comments) => 
 // Delete ticket by id
 export const deleteTicketById = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/tickets/${id}`);
+    const res = await axios.delete(
+      `https://bug-task-tracker.herokuapp.com/api/tickets/${id}`
+    );
 
     dispatch({
       type: DELETE_TICKET,
@@ -140,7 +156,7 @@ export const deleteTicketById = (id) => async (dispatch) => {
 // Find ticket creator
 export const findTicketCreator = (id) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/users/${id}`);
+    const res = await axios.get(`https://bug-task-tracker.herokuapp.com/api/users/${id}`);
 
     dispatch({
       type: FIND_TICKET_CREATOR,
@@ -169,7 +185,11 @@ export const addComment = (ticketId, user, username, text) => async (dispatch) =
   const body = JSON.stringify({ user: user, username: username, text: text });
 
   try {
-    const res = await axios.post('/api/tickets/comments/' + ticketId, body, config);
+    const res = await axios.post(
+      'https://bug-task-tracker.herokuapp.com/api/tickets/comments/' + ticketId,
+      body,
+      config
+    );
 
     dispatch({
       type: COMMENT_ADDED,
@@ -194,7 +214,11 @@ export const deleteComment = (ticketId, commentId) => async (dispatch) => {
   const body = JSON.stringify({ commentId: commentId });
 
   try {
-    const res = await axios.put(`/api/tickets/comments/delete/${ticketId}`, body, config);
+    const res = await axios.put(
+      `https://bug-task-tracker.herokuapp.com/api/tickets/comments/delete/${ticketId}`,
+      body,
+      config
+    );
 
     console.log(res.data);
 

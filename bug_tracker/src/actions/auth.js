@@ -16,7 +16,7 @@ export const loadUser = () => async (dispath) => {
   if (localStorage.token) setAuthToken(localStorage.token);
 
   try {
-    const res = await axios.get('/api/auth');
+    const res = await axios.get('https://bug-task-tracker.herokuapp.com/api/auth');
     dispath({
       type: USER_LOADED,
       payload: res.data,
@@ -39,7 +39,7 @@ export const register = ({ name, email, password }) => async (dispatch) => {
   const body = JSON.stringify({ name, email, password });
 
   try {
-    const res = await axios.post('/api/users', body, config);
+    const res = await axios.post('https://bug-task-tracker.herokuapp.com/api/users', body, config);
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -73,7 +73,7 @@ export const login = (email, password) => async (dispatch) => {
 
   try {
     console.log(body);
-    const res = await axios.post('/api/auth', body, config);
+    const res = await axios.post('https://bug-task-tracker.herokuapp.com/api/auth', body, config);
     console.log(res.data);
 
     dispatch({
@@ -107,7 +107,7 @@ export const skipLogin = () => async (dispatch) => {
   const body = { email: 'test@test.com', password: '123456' };
 
   try {
-    const res = await axios.post('/api/auth', body, config);
+    const res = await axios.post('https://bug-task-tracker.herokuapp.com/api/auth', body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,
