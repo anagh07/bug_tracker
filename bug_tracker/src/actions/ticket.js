@@ -69,11 +69,11 @@ export const createTicket = (ticketObj) => async (dispatch) => {
   };
 
   const body = JSON.stringify(ticketObj);
-  console.log(ticketObj);
+  // console.log(ticketObj);
 
   try {
     const res = await axios.post('/api/tickets', body, config);
-    console.log(res.data);
+    // console.log(res.data);
 
     dispatch({
       type: TICKET_CREATED,
@@ -90,9 +90,14 @@ export const createTicket = (ticketObj) => async (dispatch) => {
 };
 
 // Update a single ticket
-export const updateTicket = (id, title, description, type, status, comments) => async (
-  dispatch
-) => {
+export const updateTicket = (
+  id,
+  title,
+  description,
+  type,
+  status,
+  comments
+) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
