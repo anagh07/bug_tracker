@@ -11,6 +11,7 @@ import { register } from '../actions/auth';
 import { Button } from '@material-ui/core';
 
 import Spinner from './Spinner';
+import logo from '../images/appicon2.png';
 
 const Register = (props) => {
   const [formData, setForm] = useState({
@@ -50,6 +51,9 @@ const Register = (props) => {
     <Fragment>
       <section className='auth__container'>
         <div className='auth'>
+          <div className='auth__image-container'>
+            <img className='app__icon' src={logo} alt='navicon' />
+          </div>
           <h1 className='auth__title'>Sign Up</h1>
           <p className='auth__subtitle'>
             <i className='fas fa-user'></i> Create Your Account

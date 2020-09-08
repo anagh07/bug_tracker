@@ -9,6 +9,7 @@ import './Auth.css';
 
 import { login, skipLogin } from '../actions/auth';
 import Spinner from './Spinner';
+import logo from '../images/appicon2.png';
 // import Register from './Register';
 
 const Login = (props) => {
@@ -43,9 +44,12 @@ const Login = (props) => {
     <Fragment>
       <section className='auth__container'>
         <div className='auth'>
+          <div className='auth__image-container'>
+            <img className='app__icon' src={logo} alt='navicon' />
+          </div>
           <h1 className='auth__title'>Log in</h1>
           <p className='auth__subtitle'>
-            <i className='fas fa-user'></i> Log Into Your Account
+            <i className='fas fa-user'></i> Log in to your account
           </p>
           <form
             className='form'

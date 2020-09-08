@@ -47,3 +47,11 @@
 .auth__skip-btn {
   color: teal !important;
 }
+
+.auth__image-container {
+  margin-bottom: 1rem;
+}
+
+.app__icon {
+  width: 200px;
+}
